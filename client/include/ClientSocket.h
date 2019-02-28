@@ -20,11 +20,13 @@ public:
 
     void socket();
 
-    void connect(const char *ip, short port);
+    void connect(const char *ip, unsigned short port);
 
     void close();
 
     bool isAvailable();
+
+    void perrorAndExit(const char *msg);
 };
 
 #endif //TCPCLIENT_DEMO6_CLIENTSOCKET_H

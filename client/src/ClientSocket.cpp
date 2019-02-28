@@ -1,3 +1,4 @@
+#include <cassert>
 #include "../include/ClientSocket.h"
 
 ClientSocket::ClientSocket() {
@@ -9,30 +10,24 @@ ClientSocket::~ClientSocket() {
 }
 
 void ClientSocket::socket() {
-    if (_socket != INVALID_SOCK) {
-        warn("socket(): 参数错误");
-        exit(EXIT_FAILURE);
-    }
+    assert(_socket == INVALID_SOCK);
 
     _socket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (_socket == INVALID_SOCK)
-        handler_error1("socket()");
+        perrorAndExit("socket()");
 
     info("成功创建Socket");
 }
 
-void ClientSocket::connect(const char *ip, short port) {
-    if (_socket == INVALID_SOCK) {
-        warn("connect(): 参数错误");
-        exit(EXIT_FAILURE);
-    }
+void ClientSocket::connect(const char *ip, unsigned short port) {
+    assert(_socket != INVALID_SOCK);
 
-    sockaddr_in server_addr;
+    sockaddr_in server_addr = {};
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port);
     server_addr.sin_addr.s_addr = inet_addr(ip);
     if (::connect(_socket, (sockaddr *) &server_addr, sizeof(sockaddr_in)) == -1)
-        handler_error1("connect()");
+        perrorAndExit("connect()");
 
     info("成功发起连接");
 }
@@ -51,3 +46,8 @@ bool ClientSocket::isAvailable() {
     return _socket != INVALID_SOCK;
 }
 
+void ClientSocket::perrorAndExit(const char *msg) {
+    perror(msg);
+    close();
+    exit(EXIT_FAILURE);
+}

@@ -11,15 +11,21 @@
 class TCPClient
 {
 private:
-    ClientSocket _socket;
+    ClientSocket *_socket;
     ev::timer _timer;
     ev::default_loop _loop;
 public:
-    TCPClient() = default;
+    TCPClient() {
+        _socket = new ClientSocket();
+    }
 
-    ~TCPClient() = default;
+    ~TCPClient() {
+        delete _socket;
+    }
 
     void start(const char *ip, short port);
+
+    void stop();
 
     void TimeOutCallBack(ev::timer &timer, int revents);
 };

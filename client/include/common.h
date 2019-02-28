@@ -13,24 +13,6 @@
 #include <zconf.h>
 #include <cstdlib>
 
-/**
- * 打印错误信息，并退出。
- */
-#define handler_error1(msg) do {        \
-    perror(msg);                \
-    exit(EXIT_FAILURE);         \
-} while (0)
-
-/**
- * 打印错误信息，关闭socket连接，并退出
- */
-#define handler_error2(msg, sockfd) do {    \
-    perror(msg);                    \
-    close(sockfd);                  \
-    sockfd = INVALID_SOCK;          \
-    exit(EXIT_FAILURE);             \
-} while (0)
-
 #define info(msg) do {          \
     printf("INFO: %s\n", msg);  \
 } while (0)
