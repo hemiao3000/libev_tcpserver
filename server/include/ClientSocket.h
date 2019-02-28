@@ -5,8 +5,11 @@
 #ifndef TCPSERVER_DEMO6_CLIENTSOCKET_H
 #define TCPSERVER_DEMO6_CLIENTSOCKET_H
 
+#include <queue>
 #include "common.h"
 #include "TCPServer.h"
+#include "MessageHeader.h"
+
 
 /**
  * 在TCPServer这一侧
@@ -20,23 +23,28 @@ class TCPServer;
 class ClientSocket
 {
 private:
-    int _client_socket;
+    int _socket;
     ev::io _io;
     TCPServer *_server;// “反向”指向 client_socket 的 TCPServer对象。
 
     ClientSocket() {
-        _client_socket = INVALID_SOCK;
+        _socket = INVALID_SOCK;
         _server = nullptr;
     }
+
+    void handlerMessage(char *rcv_buf);
+    void perrorAndExit(const char *msg);
 
 public:
     ClientSocket(int client_socket, TCPServer *server);
 
-    void CallBack(ev::io &io, int revents);
+    void close();
 
     long recvData();
 
     void sendData();
+
+    void CallBack(ev::io &io, int revents);
 
 };
 

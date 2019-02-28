@@ -22,18 +22,21 @@ class TCPServer;
 class ServerSocket
 {
 private:
-    int _server_socket;
+    int _socket;
     ev::io _io;
     TCPServer *_server;  // “反向”指向 server_socket 的 TCPServer对象。
 
+    void warnAndExit(const char *msg);
+    void perrorAndExit(const char *msg);
+
 public:
-    ServerSocket();
+    ServerSocket(TCPServer *server);
 
     ~ServerSocket();
 
     void socket();
 
-    void bind(const char *ip, short port);
+    void bind(const char *ip, unsigned short port);
 
     void listen();
 
@@ -45,7 +48,7 @@ public:
 
     bool isAvailable();
 
-    void setServer(TCPServer *server);
+//    void setServer(TCPServer *server);
 
 };
 

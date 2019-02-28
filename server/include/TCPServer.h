@@ -19,7 +19,6 @@ private:
 
     ServerSocket *_serverSocket;
 
-    // TODO: 添加一个数组/容器，用以记录已建立连接的客户端 socket
     std::vector<ClientSocket *> *_clientSocketVec;
 
 public:
@@ -28,15 +27,15 @@ public:
 
     ~TCPServer();
 
-    void start(const char *ip, short port);
+    void start(const char *ip, unsigned short port);
 
     void stop();
 
     bool isRunning();
 
-    void addClientSocket(ClientSocket *clientSock);
+    void registerClientSocket(ClientSocket *clientSock);
 
-    void removeClientSocket(ClientSocket *clientSock);
+    void unregisterClientSocket(ClientSocket *clientSock);
 };
 
 #endif //TCPSERVER_DEMO6_TCPSERVER_H
