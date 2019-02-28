@@ -1,9 +1,20 @@
 #include <cassert>
 #include "../include/TCPClient.h"
+#include "../include/Message.h"
 
-void TCPClient::start(const char *ip, short port) {
+void TCPClient::start(const char *ip, unsigned short port) {
     _socket->socket();
     _socket->connect(ip, port);
+
+    for (int i = 0; i < 10; i++) {
+        auto login = new Login("tom", "123456");
+        _socket->sendData(login, sizeof(Login));
+    }
+
+    for (int i = 0; i < 10; i++) {
+        auto logout = new Logout("tom");
+        _socket->sendData(logout, sizeof(Logout));
+    }
 
     _timer.set(10, 0);
     _timer.set<TCPClient, &TCPClient::TimeOutCallBack>(this);

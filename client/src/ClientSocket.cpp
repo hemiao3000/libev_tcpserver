@@ -42,6 +42,10 @@ void ClientSocket::close() {
     info("成功断开连接");
 }
 
+void ClientSocket::sendData(void *buf, unsigned long size) {
+    long n = send(_socket, buf, size, 0);
+}
+
 bool ClientSocket::isAvailable() {
     return _socket != INVALID_SOCK;
 }

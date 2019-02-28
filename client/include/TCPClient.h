@@ -23,9 +23,10 @@ public:
         delete _socket;
     }
 
-    void start(const char *ip, short port);
+    void start(const char *ip, unsigned short port);
 
     void stop();
+    
 
     void TimeOutCallBack(ev::timer &timer, int revents);
 };

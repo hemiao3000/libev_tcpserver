@@ -24,6 +24,8 @@ public:
 
     void close();
 
+    void sendData(void *buf, unsigned long size);
+
     bool isAvailable();
 
     void perrorAndExit(const char *msg);

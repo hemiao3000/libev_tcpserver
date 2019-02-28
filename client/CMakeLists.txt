@@ -9,6 +9,6 @@ add_executable(client
         main.cpp
         src/ClientSocket.cpp
         src/TCPClient.cpp
-)
+        include/Message.h)
 
 target_link_libraries(client ev)
