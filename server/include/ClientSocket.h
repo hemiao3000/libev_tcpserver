@@ -26,13 +26,16 @@ private:
     int _socket;
     ev::io _io;
     TCPServer *_server;// “反向”指向 client_socket 的 TCPServer对象。
+    char _rcv_buf[1024] = {};
+    unsigned long _rcv_buf_pos = 0;
 
     ClientSocket() {
         _socket = INVALID_SOCK;
         _server = nullptr;
     }
 
-    void handlerMessage(char *rcv_buf);
+    void handlerMessage(MessageHeader *header);
+
     void perrorAndExit(const char *msg);
 
 public:
